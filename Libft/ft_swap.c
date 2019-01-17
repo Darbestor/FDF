@@ -1,41 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/17 20:06:33 by ghalvors         ###   ########.fr       */
+/*   Created: 2019/01/17 12:12:42 by ghalvors          #+#    #+#             */
+/*   Updated: 2019/01/17 14:44:17 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#include "libft.h"
 
-# define SCREEN_SIZE_X 1000
-# define SCREEN_SIZE_Y 1000
-
-typedef struct		s_window
+void	ft_swap(void *var1, void *var2, size_t n)
 {
-	void			*mlx_ptr;
-	void			*win_ptr;
-	void			*img_ptr;
-	char			*data;
-	int				bg;
-	int				draw_color;
-	int				bits;
-	int				pitch;
-	int				endian;
-	struct s_window	*next;
-}					t_window;
+	unsigned char	*temp;
 
-typedef struct		s_coords
-{
-	int				x1;
-	int				x2;
-	int				y1;
-	int				y2;
-}					t_coords;
-
-#endif
+	temp = ft_memalloc(n);
+	ft_memcpy(temp, var1, n);
+	ft_memcpy(var1, var2, n);
+	ft_memcpy(var2, temp, n);
+	ft_memdel((void**)&temp);
+}
