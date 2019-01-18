@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/17 20:06:33 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/18 19:52:49 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ typedef struct		s_window
 	void			*mlx_ptr;
 	void			*win_ptr;
 	void			*img_ptr;
-	char			*data;
+	int				*data;
 	int				bg;
-	int				draw_color;
+	int				color;
 	int				bits;
 	int				pitch;
 	int				endian;
