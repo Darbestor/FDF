@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/18 19:52:49 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/19 20:22:11 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_window
 	int				bits;
 	int				pitch;
 	int				endian;
+	int				map_size;
 	struct s_window	*next;
 }					t_window;
 
@@ -37,5 +38,14 @@ typedef struct		s_coords
 	int				y1;
 	int				y2;
 }					t_coords;
+
+typedef struct		s_point
+{
+	int				x;
+	int				y;
+	int				z;
+}					t_point;
+
+int	read_map(int argc, char **argv);
 
 #endif

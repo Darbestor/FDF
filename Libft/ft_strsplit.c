@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/24 20:38:22 by ghalvors          #+#    #+#             */
-/*   Updated: 2018/12/05 13:47:45 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/19 18:25:24 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,6 @@ static char		**ft_strarr(char const *s, char *c, size_t *size)
 	return (arr);
 }
 
-static char		**ft_arrdel(char **arr, size_t *size)
-{
-	while (*size--)
-	{
-		ft_strdel(*(&arr));
-		arr++;
-	}
-	return (NULL);
-}
-
 char			**ft_strsplit(char const *s, char c)
 {
 	char	**strarr;
@@ -77,7 +67,7 @@ char			**ft_strsplit(char const *s, char c)
 			s++;
 		*strarr = ft_strnew(ft_wordlen(s, &c));
 		if (!*strarr)
-			return (ft_arrdel(temp, &size_of_arr));
+			return (ft_arrdel(temp, size_of_arr));
 		i = 0;
 		while ((*s != c) && *s)
 			(*strarr)[i++] = *s++;

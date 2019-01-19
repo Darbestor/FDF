@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 12:01:31 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/17 12:52:51 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/19 20:47:45 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,22 @@
 # define LIBFT_H
 # include <string.h>
 
+# define BUFF_SIZE 150
+
 typedef struct	s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
 }				t_list;
+
+typedef struct	s_gnl
+{
+	int					fd;
+	char				*line;
+	long long int		len;
+	struct s_gnl		*next;
+}				t_gnl;
 
 void			ft_putchar(char c);
 void			ft_putstr(char const *s);
@@ -81,5 +91,8 @@ void			ft_lstadd(t_list **alst, t_list *new);
 void			ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void			ft_swap(void *var1, void *var2, size_t n);
+int				get_next_line(const int fd, char **line);
+int				ft_count_words(const char **arr);
+char			**ft_arrdel(char **arr, size_t size);
 
 #endif

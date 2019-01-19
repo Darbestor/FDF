@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:40:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/18 20:21:42 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/19 21:32:06 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,18 @@ void	algorithm(t_coords *coords, t_window* win)
 	mlx_put_image_to_window(win->mlx_ptr, win->win_ptr, win->img_ptr, 0, 0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_window	*win;
 	t_coords	**coords;
 	int			i;
 
 	i = 0;
+	if (!(read_map(argc, argv)))
+	{
+		perror("Error reading map");
+		exit(0);
+	}
 	if (!(win = mlx_new()))
 		return (1);
 	coords = malloc(sizeof(t_coords**) * 360);
@@ -156,12 +161,12 @@ int	main(void)
 		if ((coords)[i]->x2 || (coords)[i]->y2)
 		algorithm(coords[i++], win);
 	}
-/* 		coords[i] = (t_coords*)malloc(sizeof(t_coords));
+		coords[i] = (t_coords*)malloc(sizeof(t_coords));
 		(coords)[i]->x1 = 500;
 		(coords)[i]->x2 = 501;
 		(coords)[i]->y1 = 500;
 		(coords)[i]->y2 = 501;
-		algorithm(coords[i], win); */
+		algorithm(coords[i], win);
 	mlx_key_hook(win->win_ptr, ft_exit, 0);
 	mlx_loop(win->mlx_ptr);
 	return (0);
