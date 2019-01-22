@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/22 12:01:31 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/19 20:47:45 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/22 13:06:19 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void			ft_swap(void *var1, void *var2, size_t n);
 int				get_next_line(const int fd, char **line);
 int				ft_count_words(const char **arr);
 char			**ft_arrdel(char **arr, size_t size);
+int				ft_getnbr(char **str);
 
 #endif
