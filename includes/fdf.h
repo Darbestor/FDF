@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/22 20:03:12 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/23 20:47:26 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,19 @@
 # define FDF_H
 
 # define SCREEN_SIZE_X 1000
-# define SCREEN_SIZE_Y 1000
+# define SCREEN_SIZE_Y 1500
 
 #include <stdio.h>
+typedef enum		e_color
+{
+	RED = 0xff0000,
+	GREEN = 0x00ff00,
+	BLUE = 0x0000ff,
+	BLACK = 0x000000,
+	WHITE = 0xffffff,
+	YELLOW = 0xffff00,
+	KHAKI = 0xf0e68c
+}					t_color;
 
 typedef struct		s_line
 {
@@ -42,8 +52,8 @@ typedef struct		s_window
 	void			*win_ptr;
 	void			*img_ptr;
 	int				*data;
-	int				bg;
-	int				color;
+	t_color			bg;
+	t_color			color;
 	int				bits;
 	int				pitch;
 	int				endian;
@@ -51,9 +61,14 @@ typedef struct		s_window
 	int				map_width;
 	int				min_h;
 	int				max_h;
-	float				coef;
+	float			coef;
 	int				gap;
-	float				zoom;
+	float			zoom;
+	int				move_x;
+	int				move_y;
+	int				rot_x;
+	int				rot_y;
+	int				rot_z;
 	t_line			*line;
 	t_point			*points_map;
 	struct s_window	*next;
@@ -64,6 +79,8 @@ t_point	*create_map(char *file, t_window *win);
 void	project(t_point *begin, t_point *end, t_window *win, t_line *line);
 int		key_press(int keycode, void *param);
 int		render(void *param);
-void	construct_lines(t_window *win, t_point *map);
+void	construct_lines(t_window *win);
+int		mouse_press(int button, int x, int y, void *param);
+void	set_coef(t_window *win);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 11:54:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/22 14:21:43 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/23 19:36:38 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../Libft/libft.h"
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdio.h>
+#include <math.h>
 
 int		check_err(char *s)
 {
@@ -41,34 +41,35 @@ int		check_err(char *s)
 	return (0);
 }
 
-int		parse_color(char *str)
+int		parse_color(char *str, int color)
 {
 	int	i;
 	int	val;
-	int	base;
+	int	decimal;
+	int	len;
 
-	val = 0;
-	base = 1;
+	decimal = 0;
 	if (str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
 	{
 		i = 2;
-		while (str[i] && i < 8)
+		len = ft_strlen(str + 2) - 1;
+		while (str[i] && len < 6)
 		{
 			if (str[i] >= '0' && str[i] <= '9')
-				val += (str[i] - '0') * base;
+				val = str[i] - '0';
 			else if (str[i] >= 'A' && str[i] <= 'F')
-				val += (str[i] - 55) * base;
+				val = str[i] - 55;
 			else if (str[i] >= 'a' && str[i] <= 'f')
-				val += (str[i] - 87) * base;
+				val = str[i] - 87;
 			else
 				break;
 			i++;
-			base *= 16;
+			decimal += val * pow(16, len--);
 		}
 	}
-	if (!val || str[i])
-		return (-1);
-	return (val);
+	if (!decimal || str[i])
+		return (color);
+	return (decimal);
 }
 
 void	fill_point(t_point **point, char **split, int line, t_window *win)
@@ -86,9 +87,9 @@ void	fill_point(t_point **point, char **split, int line, t_window *win)
 		else if ((*point)->z < win->min_h)
 			win->min_h = (*point)->z;
 		if ((str = ft_strstr(split[i], ",")))
-			(*point)->color = parse_color(str + 1);
+			(*point)->color = parse_color(str + 1, (int)win->color);
 		else
-			(*point)->color = -1;
+			(*point)->color = (int)win->color;
 		(*point)++;
 	}
 }
