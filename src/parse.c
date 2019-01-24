@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 11:54:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/24 16:58:03 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/24 17:03:15 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,9 @@ int		create_map(char *file, t_window *win)
 		ft_arrdel(split, win->map_width);
 		ft_strdel(&str);
 	}
+	ft_memcpy(win->cur_map, win->points_map, sizeof(t_point) * (win->map_height * win->map_width));
 	close(fd);
 	return (1);
-//	return (point - (win->map_height * win->map_width));
 }
 
 int		check_map(int fd, int *width, int *height)

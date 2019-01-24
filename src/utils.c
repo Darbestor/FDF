@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 15:08:21 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/24 16:52:49 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/24 19:24:01 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	zoom_map(int keycode, t_window *win)
 //	printf("Construct\n");
 	if (win->line->x1 * win->coef < 2147483647)
 	{
-		construct_lines(win, win->points_map);
+		apply_coef(win);
+		construct_lines(win, win->cur_map);
 //	printf("Render\n");
 		render(win);
 //	printf("Complete\n");
@@ -72,7 +73,10 @@ void	wheel_zoom(int button, t_window *win)
 		if (win->coef / 0.9 > 0.000001)
 			win->coef /= 0.9;
 	if (win->line->x1 * win->coef < 2147483647)
-		construct_lines(win, win->points_map);
+	{
+		apply_coef(win);
+		construct_lines(win, win->cur_map);
+	}
 	render(win);
 }
 
@@ -80,7 +84,8 @@ void	reset_map(t_window *win)
 {
 	printf("Called\n");
 	set_coef(win);
-	construct_lines(win, win->points_map);
+	apply_coef(win);
+	construct_lines(win, win->cur_map);
 	render(win);
 	printf("Done\n");
 }
@@ -107,26 +112,41 @@ void	change_background(t_window *win)
 	render(win);
 }
 
-/* void	rotate_x(int keycode, t_window *win)
+void	rotate_x(int keycode, t_window *win)
 {
 	int	i;
 	int map_size;
-	int	prev_x;
 	int	prev_y;
 	int	prev_z;
 
+	printf("Called\n");
 	i = -1;
 	map_size = win->map_width * win->map_height;
-	if (keycode == 4)
+	if (keycode == 83)
 	{
-		while (i < map_size)
+		win->rot += 0.174533;
+		while (++i < map_size)
 		{
-			prev_y = win->points_map[i].y;
-			prev_z = win->points_map[i].z;
-			win->points_map[i].y = prev_y * cos(0.174533) + prev_z * 
+			prev_y = win->points_map[i].y * win->coef;
+			prev_z = win->points_map[i].z * win->coef;
+			win->cur_map[i].y = prev_y * cos(win->rot) + prev_z * sin(win->rot);
+			win->cur_map[i].z = (-prev_y * sin(win->rot)) + prev_z * cos(win->rot);
 		}
 	}
-} */
+	else
+	{
+		win->rot -= 0.174533;
+		while (++i < map_size)
+		{
+			prev_y = win->points_map[i].y * win->coef;
+			prev_z = win->points_map[i].z * win->coef;
+			win->cur_map[i].y = prev_y * cos(win->rot) + prev_z * sin(win->rot);
+			win->cur_map[i].z = (-prev_y * sin(win->rot)) + prev_z * cos(win->rot);
+		}
+	}
+	construct_lines(win, win->cur_map);
+	render(win);
+}
 
 int	key_press(int keycode, void *param)
 {
@@ -145,8 +165,8 @@ int	key_press(int keycode, void *param)
 		change_line_color(win);
 	if (keycode == 11)
 		change_background(win);
-/* 	if (keycode == 83 || keycode == 84)
-		rotate_x(keycode, win->points_map); */
+	if (keycode == 83 || keycode == 84)
+		rotate_x(keycode, win);
 	return (0);
 }
 

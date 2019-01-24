@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:40:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/24 16:57:32 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/24 21:18:41 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_window*	mlx_new()
 	win->rot_x = 0;
 	win->rot_y = 0;
 	win->rot_z = 0;
+	win->rot = 0;
 	return (win);
 }
 
@@ -68,10 +69,10 @@ void	draw_straight(t_line *line, t_window *win)
 		if ((int)intery >= 0 && intery < SCREEN_SIZE_Y &&
 		(xi + (((int)intery + 1) * win->pitch)) < win->pitch * SCREEN_SIZE_Y)
 		{
-			if (dx != 0)
+//			if (dx != 0)
 					set_intense((int*)(win->data + xi + ((int)intery
 					* win->pitch)), 1 - (intery - (int)intery), win);
-			if (dy != 0)
+//			if (dy != 0)
 					set_intense((int*)(win->data + xi + (((int)intery + 1)
 					* win->pitch)), intery - (int)intery, win);
 		}
@@ -99,10 +100,10 @@ void	draw_reverse(t_line *line, t_window *win)
 		(((int)intery + 1) + xi * win->pitch) < win->pitch * SCREEN_SIZE_Y)
 		{
 //			printf("x1: %d\n", (int)intery);
-			if (dx != 0)
+//			if (dx != 0)
 				set_intense((int*)(win->data + ((int)intery + xi
 				* win->pitch)), 1 - (intery - (int)intery), win);
-			if (dy != 0)
+//			if (dy != 0)
 			if ((int)intery + 1 < SCREEN_SIZE_X)
 				set_intense((int*)(win->data + (((int)intery + 1) + xi
 				* win->pitch)), intery - (int)intery, win);
@@ -157,11 +158,32 @@ void		set_coef(t_window *win)
 	win->map_width;
 	max_val = max_z > max_xy ? max_z : max_xy;
 	screen_min = SCREEN_SIZE_Y <= SCREEN_SIZE_X ?
-	SCREEN_SIZE_Y * sin(0.523599) : SCREEN_SIZE_X * cos(0.523599);
+	SCREEN_SIZE_Y : SCREEN_SIZE_X ;
 	if (max_val >= screen_min)
+	{
 		win->coef = (max_val / screen_min);
+		printf("%f\n\n", win->coef);
+	}
 	else
+	{
 		win->coef = (screen_min / max_val);
+		printf("%f\n\n", win->coef);
+	}
+}
+
+void	apply_coef(t_window *win)
+{
+	int i;
+	int	map_size;
+
+	i = -1;
+	map_size = win->map_width * win->map_height;
+	while (++i < map_size)
+	{
+		win->cur_map[i].x = win->points_map[i].x *  win->coef;
+		win->cur_map[i].y = win->points_map[i].y * win->coef;
+		win->cur_map[i].z = win->points_map[i].z * win->coef;
+	}
 }
 
 void	construct_lines(t_window *win, t_point *map)
@@ -176,6 +198,7 @@ void	construct_lines(t_window *win, t_point *map)
 	(win->map_width * (win->map_height -1))));
 	win->line = line;
 	map_size = win->map_width * win->map_height;
+//s	apply_coef(win);
 	while (++i < map_size)
 	{
 		if ((i + 1) % win->map_width != 0)
@@ -185,15 +208,15 @@ void	construct_lines(t_window *win, t_point *map)
 	}
 }
 
-int	render(void *param)
+int	render(t_window *win)
 {
 	int		i;
 	int		lines;
-	t_window*	win;
+//	t_window*	win;
 	t_line	*line;
 
 	i = -1;
-	win = (t_window*)param;
+//	win = (t_window*)param;
 	while (++i < SCREEN_SIZE_Y * win->pitch)
 		win->data[i] = win->bg;
 	lines = ((win->map_width - 1) * win->map_height) +
@@ -213,8 +236,6 @@ int	render(void *param)
 int	main(int argc, char **argv)
 {
 	t_window	*win;
-//	t_point		*map;
-//	t_line		*line;
 	int			i;
 
 	i = 0;
@@ -228,7 +249,8 @@ int	main(int argc, char **argv)
 	}
 //	win->points_map = map;
 	set_coef(win);
-	construct_lines(win, win->points_map);
+	apply_coef(win);
+	construct_lines(win, win->cur_map);
 	render(win);
 
 	mlx_hook(win->win_ptr, 2, 0, &key_press, win);
