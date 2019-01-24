@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/23 20:47:26 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:57:49 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,16 @@ typedef struct		s_window
 	int				rot_z;
 	t_line			*line;
 	t_point			*points_map;
+	t_point			*cur_map;
 	struct s_window	*next;
 }					t_window;
 
 int		read_map(int argc, char **argv, int *map_heigth, int *map_width);
-t_point	*create_map(char *file, t_window *win);
+int		create_map(char *file, t_window *win);
 void	project(t_point *begin, t_point *end, t_window *win, t_line *line);
 int		key_press(int keycode, void *param);
 int		render(void *param);
-void	construct_lines(t_window *win);
+void	construct_lines(t_window *win, t_point *map);
 int		mouse_press(int button, int x, int y, void *param);
 void	set_coef(t_window *win);
 

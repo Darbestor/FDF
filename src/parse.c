@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 11:54:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/23 19:36:38 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:58:03 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	fill_point(t_point **point, char **split, int line, t_window *win)
 	}
 }
 
-t_point	*create_map(char *file, t_window *win)
+int		create_map(char *file, t_window *win)
 {
 	t_point	*point;
 	char	*str;
@@ -104,18 +104,22 @@ t_point	*create_map(char *file, t_window *win)
 
 	fd = open(file, O_RDONLY);
 	if (fd <= 0 || !(point = ft_memalloc(sizeof(t_point) * (win->map_height * win->map_width))))
-		return (NULL);
+		return (0);
 	line = 0;
+	win->points_map = point;
+	if (!(win->cur_map = ft_memalloc(sizeof(t_point) * (win->map_height * win->map_width))))
+		return (0);
 	while (get_next_line(fd, &str))
 	{
 		if (!(split = ft_strsplit(str, ' ')))
-			return (NULL);
+			return (0);
 		fill_point(&point, split, line++, win);
 		ft_arrdel(split, win->map_width);
 		ft_strdel(&str);
 	}
 	close(fd);
-	return (point - (win->map_height * win->map_width));
+	return (1);
+//	return (point - (win->map_height * win->map_width));
 }
 
 int		check_map(int fd, int *width, int *height)

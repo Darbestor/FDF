@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:40:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/23 20:47:59 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/24 16:57:32 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ void	draw_straight(t_line *line, t_window *win)
 		if ((int)intery >= 0 && intery < SCREEN_SIZE_Y &&
 		(xi + (((int)intery + 1) * win->pitch)) < win->pitch * SCREEN_SIZE_Y)
 		{
+			if (dx != 0)
 					set_intense((int*)(win->data + xi + ((int)intery
 					* win->pitch)), 1 - (intery - (int)intery), win);
+			if (dy != 0)
 					set_intense((int*)(win->data + xi + (((int)intery + 1)
 					* win->pitch)), intery - (int)intery, win);
 		}
@@ -97,8 +99,10 @@ void	draw_reverse(t_line *line, t_window *win)
 		(((int)intery + 1) + xi * win->pitch) < win->pitch * SCREEN_SIZE_Y)
 		{
 //			printf("x1: %d\n", (int)intery);
+			if (dx != 0)
 				set_intense((int*)(win->data + ((int)intery + xi
 				* win->pitch)), 1 - (intery - (int)intery), win);
+			if (dy != 0)
 			if ((int)intery + 1 < SCREEN_SIZE_X)
 				set_intense((int*)(win->data + (((int)intery + 1) + xi
 				* win->pitch)), intery - (int)intery, win);
@@ -160,7 +164,7 @@ void		set_coef(t_window *win)
 		win->coef = (screen_min / max_val);
 }
 
-void	construct_lines(t_window *win)
+void	construct_lines(t_window *win, t_point *map)
 {
 	int		i;
 	t_line	*line;
@@ -175,10 +179,9 @@ void	construct_lines(t_window *win)
 	while (++i < map_size)
 	{
 		if ((i + 1) % win->map_width != 0)
-			project(win->points_map + i, win->points_map + i + 1, win, line++);
+			project(map + i, map + i + 1, win, line++);
 		if (i + win->map_width < map_size)
-			project(win->points_map + i, win->points_map +
-			(i + win->map_width), win, line++);
+			project(map + i, map + (i + win->map_width), win, line++);
 	}
 }
 
@@ -210,7 +213,7 @@ int	render(void *param)
 int	main(int argc, char **argv)
 {
 	t_window	*win;
-	t_point		*map;
+//	t_point		*map;
 //	t_line		*line;
 	int			i;
 
@@ -218,14 +221,14 @@ int	main(int argc, char **argv)
 	if (!(win = mlx_new()))
 		return (1);
 	if (!(read_map(argc, argv, &(win->map_height), &(win->map_width))) ||
-	!(map = create_map(argv[1], win)))
+	!(create_map(argv[1], win)))
 	{
 		perror("Error reading map");
 		exit(0);
 	}
-	win->points_map = map;
+//	win->points_map = map;
 	set_coef(win);
-	construct_lines(win);
+	construct_lines(win, win->points_map);
 	render(win);
 
 	mlx_hook(win->win_ptr, 2, 0, &key_press, win);
