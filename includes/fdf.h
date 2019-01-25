@@ -6,15 +6,15 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/24 20:25:26 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/25 19:50:08 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# define SCREEN_SIZE_X 1500
-# define SCREEN_SIZE_Y 1500
+# define SCREEN_SIZE_X 1000
+# define SCREEN_SIZE_Y 1000
 
 #include <stdio.h>
 typedef enum		e_color
@@ -66,10 +66,12 @@ typedef struct		s_window
 	float			zoom;
 	int				move_x;
 	int				move_y;
-	int				rot_x;
-	int				rot_y;
-	int				rot_z;
-	float			rot;
+	float			rot_x;
+	float			rot_y;
+	float			rot_z;
+	float			rot_speed;
+	int				auto_rotate;
+	int				ctrl;
 	t_line			*line;
 	t_point			*points_map;
 	t_point			*cur_map;
@@ -86,5 +88,7 @@ void	construct_lines(t_window *win, t_point *map);
 int		mouse_press(int button, int x, int y, void *param);
 void	set_coef(t_window *win);
 void	apply_coef(t_window *win);
+int		auto_rotate(t_window *win);
+int		key_release(int keycode, void *param);
 
 #endif
