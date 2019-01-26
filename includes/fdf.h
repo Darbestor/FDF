@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:39:50 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/25 19:50:08 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/26 16:33:17 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ typedef struct		s_window
 	float			rot_speed;
 	int				auto_rotate;
 	int				ctrl;
+	int				min_x;
+	int				max_x;
+	int				min_y;
+	int				max_y;
+	int				proj;
 	t_line			*line;
 	t_point			*points_map;
 	t_point			*cur_map;

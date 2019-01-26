@@ -6,12 +6,11 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:40:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/25 19:45:38 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/26 16:38:02 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include "../Libft/libft.h"
 #include "../minilibx/mlx.h"
@@ -39,6 +38,8 @@ t_window*	mlx_new()
 	win->rot_x = 0;
 	win->rot_y = 0;
 	win->rot_z = 0;
+	win->max_x = 0;
+	win->max_y = 0;
 	return (win);
 }
 
@@ -156,12 +157,12 @@ void		set_coef(t_window *win)
 	SCREEN_SIZE_Y : SCREEN_SIZE_X ;
 	if (max_val >= screen_min)
 	{
-		win->coef = 1;//(max_val / screen_min);
+		win->coef = (max_val / screen_min) * 0.6;
 		printf("%f\n\n", win->coef);
 	}
 	else
 	{
-		win->coef = 1;//(screen_min / max_val);
+		win->coef = (screen_min / max_val) * 0.6;
 		printf("%f\n\n", win->coef);
 	}
 		win->smesh = SCREEN_SIZE_Y / 2 - win->map_height / 2;
@@ -222,7 +223,6 @@ void	apply_coef(t_window *win)
 	}
 }
 
-
 void	construct_lines(t_window *win, t_point *map)
 {
 	int		i;
@@ -242,6 +242,58 @@ void	construct_lines(t_window *win, t_point *map)
 			project(map + i, map + i + 1, win, line++);
 		if (i + win->map_width < map_size)
 			project(map + i, map + (i + win->map_width), win, line++);
+	}
+}
+
+void	set_center(t_window *win)
+{
+	int		i;
+	int		lines;
+//	t_window*	win;
+	t_line	*line;
+
+	i = -1;
+//	win = (t_window*)param;
+	lines = ((win->map_width - 1) * win->map_height) +
+	(win->map_width * (win->map_height -1));
+	line = win->line;
+	win->min_x = line->x1;
+	win->max_x = line->x2;
+	win->min_y = line->y1;
+	win->max_y = line->y2;
+	while (++i < lines)
+	{
+		if (line[i].x1 < win->min_x)
+			win->min_x = line[i].x1;
+		else if (line[i].x2 < win->min_x)
+			win->min_x = line[i].x2;
+		//////////////////////
+		if (line[i].x1 > win->max_x)
+			win->max_x = line[i].x1;
+		else if (line[i].x2 > win->max_x)
+			win->max_x = line[i].x2;
+		////////////////
+		if (line[i].y1 < win->min_y)
+			win->min_y = line[i].y1;
+		else if (line[i].y2 < win->min_y)
+			win->min_y = line[i].y2;
+		//////////////////////////
+		if (line[i].y1 > win->max_y)
+			win->max_y = line[i].y1;
+		else if (line[i].y2 > win->max_y)
+			win->max_y = line[i].y2;
+	}
+/* 	printf("\n%d\t%d\n", win->min_y, win->max_y);
+	printf("\n%d\t%d\n", win->min_x, win->max_x); */
+	win->max_y = -(win->min_y - (SCREEN_SIZE_Y - (win->max_y - win->min_y)) / 2);
+	win->max_x = -(win->min_x - (SCREEN_SIZE_X - (win->max_x - win->min_x)) / 2);
+	i = -1;
+	while (++i < lines)
+	{
+		line[i].y1 += win->max_y;
+		line[i].y2 += win->max_y;
+		line[i].x1 += win->max_x;
+		line[i].x2 += win->max_x;
 	}
 }
 
@@ -285,13 +337,13 @@ int	main(int argc, char **argv)
 		exit(0);
 	}
 //	win->points_map = map;
+	win->proj = 0;
 	set_coef(win);
 	apply_coef(win);
 	construct_lines(win, win->cur_map);
+	set_center(win);
 	render(win);
 	win->auto_rotate = 0;
-
-
 	mlx_hook(win->win_ptr, 2, 0, &key_press, win);
 	mlx_hook(win->win_ptr, 4, 0, &mouse_press, win);
 	mlx_hook(win->win_ptr, 3, 0, &key_release, win);
@@ -300,23 +352,3 @@ int	main(int argc, char **argv)
 //	mlx_loop_hook(win->mlx_ptr, &render, win);
 	return (0);
 }
-
-
-// print line 360 degrees test
-/* 	line = malloc(sizeof(t_line**) * 360);
-	while (i < 360)
-	{
-		line[i] = (t_line*)malloc(sizeof(t_line));
-		(line)[i]->x1 = 500;
-		(line)[i]->x2 = round((line)[i]->x1 + cos(i) * 500);
-		(line)[i]->y1 = 500;
-		(line)[i]->y2 = round((line)[i]->y1 + sin(i) * 500);
-		if ((line)[i]->x2 || (line)[i]->y2)
-		algorithm(line[i++], win);
-	} */
-/* 		map[i] = (t_map*)malloc(sizeof(t_map));
-		(map)[i]->x1 = 500;
-		(map)[i]->x2 = 501;
-		(map)[i]->y1 = 500;
-		(map)[i]->y2 = 501;
-		algorithm(map[i], win); */
