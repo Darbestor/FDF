@@ -6,7 +6,7 @@
 #    By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/27 16:55:32 by ghalvors          #+#    #+#              #
-#    Updated: 2018/12/29 17:04:35 by ghalvors         ###   ########.fr        #
+#    Updated: 2019/01/26 19:06:18 by ghalvors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJECTS := $(patsubst src/%,obj/%,$(SRCS:%.c=%.o))
 INCLUDESDIR = includes
 HEADER = $(shell find $(INCLUDESDIR) -type f -name '*.h')
 SUBDIRS = Libft minilibx
-LIB_INC =  -LLibft -lft
+LIB_INC =  -LLibft -lft -lm
 MLX_INC = -Lminilibx -lmlx -framework OpenGL -framework AppKit
 PRINTF=test $(VERBOSE)$(TRAVIS) || printf
 

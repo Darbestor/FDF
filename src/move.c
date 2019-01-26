@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_words.c                                   :+:      :+:    :+:   */
+/*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/19 13:09:33 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/26 20:00:15 by ghalvors         ###   ########.fr       */
+/*   Created: 2019/01/26 19:43:30 by ghalvors          #+#    #+#             */
+/*   Updated: 2019/01/26 19:51:03 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_count_words(const char **arr)
-{
-	int i;
+#include "../includes/fdf.h"
 
+void	move_map(int keycode, t_window *win)
+{
+	int	i;
+	int	lines;
+
+	lines = ((win->map_w - 1) * win->map_h) +
+	(win->map_w * (win->map_h - 1));
 	i = -1;
-	if (!arr)
-		return (0);
-	while (arr[++i])
-		;
-	return (i);
+	if (keycode == 123)
+		win->move_x += 100;
+	if (keycode == 124)
+		win->move_x -= 100;
+	if (keycode == 125)
+		win->move_y -= 100;
+	if (keycode == 126)
+		win->move_y += 100;
+	render(win);
 }

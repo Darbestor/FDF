@@ -6,13 +6,13 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 18:24:16 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/19 18:33:54 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/26 20:00:01 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		**ft_arrdel(char **arr, size_t size)
+char	**ft_arrdel(char **arr, size_t size)
 {
 	while (size--)
 	{

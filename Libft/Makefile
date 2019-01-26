@@ -6,7 +6,7 @@
 #    By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/20 09:59:38 by dmorgil           #+#    #+#              #
-#    Updated: 2019/01/22 13:06:10 by ghalvors         ###   ########.fr        #
+#    Updated: 2019/01/26 20:00:55 by ghalvors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS = ft_strlen.c ft_strdup.c ft_strcpy.c ft_strncpy.c ft_strstr.c \
 	 ft_strlcat.c ft_strchr.c ft_strrchr.c ft_strsub.c ft_strjoin.c \
 	 ft_strtrim.c ft_strsplit.c ft_itoa.c ft_lstnew.c ft_lstdelone.c \
 	 ft_lstdel.c ft_lstadd.c ft_lstiter.c ft_lstmap.c ft_swap.c \
-	 get_next_line.c ft_count_words.c ft_arrdel.c ft_getnbr.c
+	 get_next_line.c ft_count_words.c ft_arrdel.c
 OBJECTS = $(SRCS:.c=.o)
 PRINTF=printf $(VERBOSE)$(TRAVIS)
 
