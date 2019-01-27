@@ -6,7 +6,7 @@
 #    By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/20 09:59:38 by dmorgil           #+#    #+#              #
-#    Updated: 2019/01/26 20:00:55 by ghalvors         ###   ########.fr        #
+#    Updated: 2019/01/26 20:07:44 by ghalvors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,10 @@ PRINTF=printf $(VERBOSE)$(TRAVIS)
 all:
 	@$(PRINTF) "%-20s\r\033[0;33m$(NAME)\033[0m"
 	$(MAKE) -q $(NAME) ; \
-	if [ $$? -eq 0 ] ; then $(PRINTF) "\r\x1b[20C\x1b[0K\033[0;31m $(NAME) is already up to date\033[0m\n"; \
-	else $(MAKE) $(NAME) && $(PRINTF) "\r\x1b[20C\x1b[0K\033[1;32m✔\033[0m\n"; fi
+	if [ $$? -eq 0 ] ; then $(PRINTF) "\r\x1b[20C\x1b[0K\033[0;31m $(NAME) \
+	is already up to date\033[0m\n"; \
+	else $(MAKE) $(NAME) && $(PRINTF) "\r\x1b[20C\x1b[0K\033[0;32m✔\033[0m\n"; \
+	fi
 
 
 $(NAME): $(OBJECTS)

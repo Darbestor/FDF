@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 11:54:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/26 17:57:15 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/26 20:15:52 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int		check_map(int fd, int *width, int *height)
 	char **split;
 	char *string;
 
-	if (get_next_line(fd, &string) == -1)
+	if (get_next_line(fd, &string) != 1)
 		return (2);
 	if (check_err(string))
 		return (4);

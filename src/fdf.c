@@ -6,7 +6,7 @@
 /*   By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 16:40:11 by ghalvors          #+#    #+#             */
-/*   Updated: 2019/01/26 19:52:40 by ghalvors         ###   ########.fr       */
+/*   Updated: 2019/01/26 20:29:32 by ghalvors         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			ft_error(int err)
 	if (err == 2)
 		perror("Error reading map");
 	if (err == 3)
-		write(2, "usage: fdf ./source file\n", 25);
+		write(2, "Usage : ./fdf <filename>\n", 25);
 	if (err == 4)
 		write(2, "Invalid map\n", 12);
 	exit(0);

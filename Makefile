@@ -6,7 +6,7 @@
 #    By: ghalvors <ghalvors@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/27 16:55:32 by ghalvors          #+#    #+#              #
-#    Updated: 2019/01/26 19:06:18 by ghalvors         ###   ########.fr        #
+#    Updated: 2019/01/26 20:06:33 by ghalvors         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,18 +26,18 @@ PRINTF=test $(VERBOSE)$(TRAVIS) || printf
 .PHONY: all
 
 all:
-	@$(PRINTF) "\r\033[1;32mCompiling external libraries\033[0m\n"
+	@$(PRINTF) "\r\033[0;32mCompiling external libraries\033[0m\n"
 	for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir; \
 	done
-	@$(PRINTF) "\r\033[1;36mCompiling main program\n"
+	@$(PRINTF) "\r\033[0;36mCompiling main program\n"
 	@$(PRINTF) "%-20s\r\033[0;36m$(NAME)\033[0m"
 	$(MAKE) -q $(NAME) ; \
 	if [ $$? -eq 0 ] ; then $(PRINTF) "\r\x1b[20C\x1b[0K\033[0;31m $(NAME) \
 	is already up to date\033[0m\n"; \
-	else $(MAKE) $(NAME) && $(PRINTF) "\r\x1b[20C\x1b[0K\033[1;32m✔\033[0m\n"; \
+	else $(MAKE) $(NAME) && $(PRINTF) "\r\x1b[20C\x1b[0K\033[0;32m✔\033[0m\n"; \
 	fi
-	@$(PRINTF) "\r\033[1;35mProgram compiled succesfuly\n"
+	@$(PRINTF) "\r\033[0;35mProgram compiled succesfuly\n"
 
 
 $(NAME): $(OBJECTS)
